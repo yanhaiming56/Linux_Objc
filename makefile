@@ -11,7 +11,7 @@ DEPS_DIR  = $(BUILD_DIR)/deps
 INC_DIR := -I. -I./oc_head -I./cpp_head -I/home/yhs/GNUstep/Library/Headers -I/usr/local/include/GNUstep -I/usr/include/GNUstep -I/lib/gcc/x86_64-linux-gnu/9/include -I/usr/include/c++/9 -I/usr/include/c++/9/backward -I/usr/include/x86_64-linux-gnu/c++/9
 
 # 这里添加编译参数
-CC_FLAGS := -stdlib=libstdc++ -pthread -g -O2 -rdynamic -shared-libgcc -Wall -Wno-import -Wobjc-property-implementation
+CC_FLAGS := -std=gnu++11 -stdlib=libstdc++ -pthread -g -O2 -rdynamic -shared-libgcc -Wall -Wno-import -Wobjc-property-implementation
 FLAGS = -fblocks -fno-strict-aliasing -fexceptions -fobjc-exceptions -fPIC -fgnu-runtime -fconstant-string-class=NSConstantString
 MACRO_FLAGS = -DGNUSTEP -DGNUSTEP_BASE_LIBRARY=1 -DGNU_GUI_LIBRARY=1 -DGNU_RUNTIME=1 -DGNUSTEP_BASE_LIBRARY=1 -D_NATIVE_OBJC_EXCEPTIONS -DGSWARN -DGSDIAGNOSE
 OTHER_FLAGS = 
@@ -50,15 +50,15 @@ $(TARGET):$(OBJS)
 # 源文件编译成中间文件，编译之前要创建OBJ目录，确保目录存在
 $(OBJ_DIR)/%.o:%.m
 	@if [ ! -d $(OBJ_DIR) ]; then mkdir -p $(OBJ_DIR); fi
-	$(CC) -std=gnu11 $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
+	$(CC)  $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
 
 $(OBJ_DIR)/%.o:%.mm
 	@if [ ! -d $(OBJ_DIR) ]; then mkdir -p $(OBJ_DIR); fi
-	$(CC) -std=c++11 $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
+	$(CC) $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
 
 $(OBJ_DIR)/%.o:%.cpp
 	@if [ ! -d $(OBJ_DIR) ]; then mkdir -p $(OBJ_DIR); fi
-	$(CC) -std=c++11 $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
+	$(CC) $(OTHER_FLAGS) $(CC_FLAGS) $(FLAGS) $(INC_DIR) $(LIB_PATH) $(LIBS) $(MACRO_FLAGS) $< -c -o $@
 
 # 生成源文件依赖头文件，编译之前要创建DEPS目录，确保目录存在
 # 前面加@表示隐藏命令的执行打印
